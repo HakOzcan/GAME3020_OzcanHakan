@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 
-#include "GAME3020_OzcanHakanPlayerController.h"
+#include "Player Controller/GAME3020_OzcanHakanPlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 

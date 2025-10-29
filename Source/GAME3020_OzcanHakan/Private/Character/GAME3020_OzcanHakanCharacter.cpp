@@ -1,6 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "GAME3020_OzcanHakanCharacter.h"
+#include "Character/GAME3020_OzcanHakanCharacter.h"
 #include "GAME3020_OzcanHakanProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
