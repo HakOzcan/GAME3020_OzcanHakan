@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GenericPlatform/GenericPlatformInputDeviceMapper.h"
 #include "MyBlueprintFunctionLibrary.h"
+#include "CustomGameViewportClient.h"
 
 void UGI_Template::Init()
 {
@@ -16,6 +17,10 @@ void UGI_Template::Init()
 
     // Bind to controller connection/disconnection events.
     IPlatformInputDeviceMapper::Get().GetOnInputDeviceConnectionChange().AddUObject(this, &UGI_Template::OnControllerChanged);
+
+    // Bind functions to execute before and after a map is loaded.
+    FCoreUObjectDelegates::PreLoadMap.AddUObject(this, &UGI_Template::BeginLoadingScreen);
+    FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UGI_Template::EndLoadingScreen);
 }
 
 /**
@@ -73,19 +78,72 @@ void UGI_Template::OnControllerChanged(EInputDeviceConnectionState connectionSta
             }
             else // Controller disconnected
             {
-                // if (W_Controller_DisconnectedClass)
-                // {
-                //     // Pause the game if not already paused.
-                //     if (!UGameplayStatics::IsGamePaused(this))
-                //     {
-                //         bDidControllerDisconnectPauseGame = true;
-                //         UGameplayStatics::SetGamePaused(this, true);
-                //     }
-                //     // Create and add the disconnect widget to notify the user.
-                //     W_Controller_Disconnected = CreateWidget<UW_Controller_Disconnected>(ActivePC, W_Controller_DisconnectedClass);
-                //     W_Controller_Disconnected->AddToViewport();
-                // }
+                if (W_Controller_DisconnectedClass)
+                {
+                    // Pause the game if not already paused.
+                    if (!UGameplayStatics::IsGamePaused(this))
+                    {
+                        bDidControllerDisconnectPauseGame = true;
+                        UGameplayStatics::SetGamePaused(this, true);
+                    }
+                    // Create and add the disconnect widget to notify the user.
+                    W_Controller_Disconnected = CreateWidget<UW_Controller_Disconnected>(ActivePC, W_Controller_DisconnectedClass);
+                    W_Controller_Disconnected->AddToViewport();
+                }
             }
+        }
+    }
+}
+
+/**
+ * Begins the loading screen process.
+ * - Fades the screen to black.
+ * - Depending on the map name, may start an in-game loading screen.
+ */
+void UGI_Template::BeginLoadingScreen(const FString& InMapName)
+{
+    // Fade in to black using the game viewport client.
+    const UWorld* World = GetWorld();
+    if (World)
+    {
+        UCustomGameViewportClient* GameViewportClient = Cast<UCustomGameViewportClient>(World->GetGameViewport());
+        if (GameViewportClient)
+        {
+            GameViewportClient->Fade(true);
+        }
+    }
+
+    // Check if the map is a frontend screen (determined by map name starting with "L_").
+    if (InMapName.Contains("L_"))
+    {
+        // Frontend screens do not require a loading screen.
+    }
+    else
+    {
+        // For gameplay screens, start the in-game loading screen using the LoadingScreenModule.
+        ILoadingScreenModule* LoadingScreenModule =
+            FModuleManager::LoadModulePtr<ILoadingScreenModule>("LoadingScreenModule");
+        if (LoadingScreenModule != NULL)
+        {
+            LoadingScreenModule->StartInGameLoadingScreen();
+        }
+    }
+}
+
+/**
+ * Ends the loading screen process.
+ * - Fades the screen from black.
+ */
+void UGI_Template::EndLoadingScreen(UWorld* InLoadedWorld)
+{
+    // Fade out from black using the game viewport client.
+    const UWorld* World = GetWorld();
+    if (World)
+    {
+        UCustomGameViewportClient* GameViewportClient = Cast<UCustomGameViewportClient>(World->GetGameViewport());
+        if (GameViewportClient)
+        {
+            GameViewportClient->Fade(false);
         }
     }
 }
