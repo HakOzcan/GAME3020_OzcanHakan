@@ -113,21 +113,21 @@ void UGI_Template::BeginLoadingScreen(const FString& InMapName)
         }
     }
 
-    // Check if the map is a frontend screen (determined by map name starting with "L_").
-    if (InMapName.Contains("L_"))
-    {
-        // Frontend screens do not require a loading screen.
-    }
-    else
-    {
-        // For gameplay screens, start the in-game loading screen using the LoadingScreenModule.
-        ILoadingScreenModule* LoadingScreenModule =
-            FModuleManager::LoadModulePtr<ILoadingScreenModule>("LoadingScreenModule");
-        if (LoadingScreenModule != NULL)
-        {
-            LoadingScreenModule->StartInGameLoadingScreen();
-        }
-    }
+    // // Check if the map is a frontend screen (determined by map name starting with "L_").
+    // if (InMapName.Contains("L_"))
+    // {
+    //     // Frontend screens do not require a loading screen.
+    // }
+    // else
+    // {
+    //     // For gameplay screens, start the in-game loading screen using the LoadingScreenModule.
+    //     ILoadingScreenModule* LoadingScreenModule =
+    //         FModuleManager::LoadModulePtr<ILoadingScreenModule>("LoadingScreenModule");
+    //     if (LoadingScreenModule != NULL)
+    //     {
+    //         LoadingScreenModule->StartInGameLoadingScreen();
+    //     }
+    // }
 }
 
 /**
