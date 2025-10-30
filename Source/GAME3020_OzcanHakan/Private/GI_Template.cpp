@@ -334,3 +334,41 @@ void UGI_Template::StopStartScreenMusic(bool ForceStop)
         }
     }
 }
+
+void UGI_Template::UnlockChapter(TSoftObjectPtr<UWorld> Chapter)
+{
+    const UWorld* World = GetWorld();
+    if (World)
+    {
+        if (ChapterLevels.Contains(Chapter))
+        {
+            ChapterLevels[Chapter] = true;
+        }
+    }
+}
+
+void UGI_Template::LoadChapter(TSoftObjectPtr<UWorld> Chapter)
+{
+    UWorld* World = GetWorld();
+    if (World)
+    {
+        if (ChapterLevels.Contains(Chapter) && ChapterLevels[Chapter])
+        {
+            UGameplayStatics::OpenLevelBySoftObjectPtr(World, Chapter);
+        }
+    }
+}
+
+TArray<bool> UGI_Template::GetChaptersLockStatus()
+{
+    TArray<bool> ChaptersStatus;
+    ChapterLevels.GenerateValueArray(ChaptersStatus);
+    return ChaptersStatus;
+}
+
+TArray<TSoftObjectPtr<UWorld>> UGI_Template::GetChaptersSoftObjPtr()
+{
+    TArray<TSoftObjectPtr<UWorld>> ChaptersSoftObjPtrs;
+    ChapterLevels.GenerateKeyArray(ChaptersSoftObjPtrs);
+    return ChaptersSoftObjPtrs;
+}

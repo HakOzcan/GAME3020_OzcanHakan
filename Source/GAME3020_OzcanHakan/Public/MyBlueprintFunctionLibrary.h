@@ -35,4 +35,16 @@ public:
 
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
     static class UUIDataAsset* GetUIDataAsset(const UObject* WorldContextObject);
+
+    UFUNCTION(BlueprintCallable, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
+    static void UnlockAChapter(const UObject* WorldContextObject, TSoftObjectPtr<UWorld> Chapter);
+
+    UFUNCTION(BlueprintCallable, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
+    static void LoadAChapter(const UObject* WorldContextObject, TSoftObjectPtr<UWorld> Chapter);
+
+    UFUNCTION(BlueprintPure, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
+    static TArray<bool> GetChaptersLockStatus(const UObject* WorldContextObject);
+
+    UFUNCTION(BlueprintPure, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
+    static TArray<TSoftObjectPtr<UWorld>> GetChaptersSoftObjPtrs(const UObject* WorldContextObject);
 };

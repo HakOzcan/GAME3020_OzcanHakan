@@ -61,3 +61,28 @@ UUIDataAsset* UMyBlueprintFunctionLibrary::GetUIDataAsset(const UObject* WorldCo
     return GameInstance->GetUIDataAsset();
 }
 
+void UMyBlueprintFunctionLibrary::UnlockAChapter(const UObject* WorldContextObject, TSoftObjectPtr<UWorld> Chapter)
+{
+    UGI_Template* GameInstance = Cast<UGI_Template>(UGameplayStatics::GetGameInstance(WorldContextObject));
+    if (!GameInstance) return;
+    GameInstance->UnlockChapter(Chapter);
+}
+
+void UMyBlueprintFunctionLibrary::LoadAChapter(const UObject* WorldContextObject, TSoftObjectPtr<UWorld> Chapter)
+{
+    UGI_Template* GameInstance = Cast<UGI_Template>(UGameplayStatics::GetGameInstance(WorldContextObject));
+    if (!GameInstance) return;
+    GameInstance->LoadChapter(Chapter);
+}
+
+TArray<bool> UMyBlueprintFunctionLibrary::GetChaptersLockStatus(const UObject* WorldContextObject)
+{
+    UGI_Template* GameInstance = Cast<UGI_Template>(UGameplayStatics::GetGameInstance(WorldContextObject));
+    return GameInstance->GetChaptersLockStatus();
+}
+
+TArray<TSoftObjectPtr<UWorld>> UMyBlueprintFunctionLibrary::GetChaptersSoftObjPtrs(const UObject* WorldContextObject)
+{
+    UGI_Template* GameInstance = Cast<UGI_Template>(UGameplayStatics::GetGameInstance(WorldContextObject));
+    return GameInstance->GetChaptersSoftObjPtr();
+}

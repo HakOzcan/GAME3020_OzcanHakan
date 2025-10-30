@@ -144,4 +144,20 @@ public:
     // Stops the start screen music; can force an immediate stop.
     UFUNCTION(BlueprintCallable)
     void StopStartScreenMusic(bool ForceStop = false);
+
+    public:
+        UPROPERTY(EditAnywhere, BlueprintReadOnly)
+        TMap<TSoftObjectPtr<UWorld>, bool> ChapterLevels;
+
+        UFUNCTION()
+        void UnlockChapter(TSoftObjectPtr<UWorld> Chapter);
+
+        UFUNCTION()
+        void LoadChapter(TSoftObjectPtr<UWorld> Chapter);
+
+        UFUNCTION()
+        TArray<bool> GetChaptersLockStatus();
+
+        UFUNCTION()
+        TArray<TSoftObjectPtr<UWorld>> GetChaptersSoftObjPtr();
 };
