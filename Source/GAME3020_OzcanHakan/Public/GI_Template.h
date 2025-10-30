@@ -72,4 +72,60 @@ private:
     // Called when a controller connection state changes (connect/disconnect).
     UFUNCTION()
     void OnControllerChanged(EInputDeviceConnectionState connectionState, FPlatformUserId userID, FInputDeviceId inputDeviceID);
+
+private:
+    // Audio components for handling background music during gameplay, menu, and start screen.
+    UPROPERTY()
+    class UAudioComponent* GameplayMusicAudioComponent;
+
+    UPROPERTY()
+    class UAudioComponent* MenuMusicAudioComponent;
+
+    UPROPERTY()
+    class UAudioComponent* StartScreenMusicAudioComponent;
+
+    // Gameplay music choices for each level.
+    UPROPERTY(EditAnywhere, Category = "Music", meta = (AllowPrivateAccess = "true"))
+    TArray<USoundBase*> GameplayMusicChoices;
+
+    // Current level index (0 to 14). You can update this value via Blueprint when the level changes.
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Music", meta = (AllowPrivateAccess = "true"))
+    int32 CurrentLevelIndex = 0;
+
+    // Sound asset for Menu Music.
+    UPROPERTY(EditAnywhere, Category = "Music", meta = (AllowPrivateAccess = "true"))
+    class USoundBase* MenuMusic;
+
+    // Sound asset for Start Screen Music.
+    UPROPERTY(EditAnywhere, Category = "Music", meta = (AllowPrivateAccess = "true"))
+    class USoundBase* StartScreenMusic;
+
+    // Duration used for fading music in and out.
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Music", meta = (AllowPrivateAccess = "true"))
+    float MusicFadeDuration = 1.0f;
+
+public:
+    // Plays the gameplay music track based on the current level index.
+    UFUNCTION(BlueprintCallable)
+    void PlayGameplayMusic();
+
+    // Stops the gameplay music; can force an immediate stop.
+    UFUNCTION(BlueprintCallable)
+    void StopGameplayMusic(bool ForceStop = false);
+
+    // Plays the menu music track.
+    UFUNCTION(BlueprintCallable)
+    void PlayMenuMusic();
+
+    // Stops the menu music; can force an immediate stop.
+    UFUNCTION(BlueprintCallable)
+    void StopMenuMusic(bool ForceStop = false);
+
+    // Plays the start screen music track.
+    UFUNCTION(BlueprintCallable)
+    void PlayStartScreenMusic();
+
+    // Stops the start screen music; can force an immediate stop.
+    UFUNCTION(BlueprintCallable)
+    void StopStartScreenMusic(bool ForceStop = false);
 };

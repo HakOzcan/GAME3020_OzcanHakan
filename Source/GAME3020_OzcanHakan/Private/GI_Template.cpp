@@ -6,6 +6,7 @@
 #include "GenericPlatform/GenericPlatformInputDeviceMapper.h"
 #include "MyBlueprintFunctionLibrary.h"
 #include "CustomGameViewportClient.h"
+#include "Components/AudioComponent.h"
 
 void UGI_Template::Init()
 {
@@ -144,6 +145,158 @@ void UGI_Template::EndLoadingScreen(UWorld* InLoadedWorld)
         if (GameViewportClient)
         {
             GameViewportClient->Fade(false);
+        }
+    }
+}
+
+/**
+ * Plays the gameplay music corresponding to the current level.
+ * - Stops menu and start screen music first.
+ * - Chooses a track from GameplayMusicChoices based on CurrentLevelIndex.
+ */
+void UGI_Template::PlayGameplayMusic()
+{
+    StopMenuMusic();
+    StopStartScreenMusic();
+
+    if (GameplayMusicChoices.IsValidIndex(CurrentLevelIndex))
+    {
+        USoundBase* SelectedMusic = GameplayMusicChoices[CurrentLevelIndex];
+
+        if (GameplayMusicAudioComponent)
+        {
+            if (!GameplayMusicAudioComponent->IsPlaying())
+            {
+                GameplayMusicAudioComponent->FadeIn(MusicFadeDuration, 1.0f);
+            }
+        }
+        else
+        {
+            GameplayMusicAudioComponent = UGameplayStatics::SpawnSound2D(this, SelectedMusic);
+
+            if (GameplayMusicAudioComponent)
+            {
+                GameplayMusicAudioComponent->FadeIn(MusicFadeDuration, 1.0f);
+            }
+        }
+    }
+}
+
+/**
+ * Stops the gameplay music.
+ * - If ForceStop is true, stops immediately; otherwise, fades out the music.
+ */
+void UGI_Template::StopGameplayMusic(bool ForceStop)
+{
+    if (GameplayMusicAudioComponent && GameplayMusicAudioComponent->IsPlaying())
+    {
+        if (ForceStop)
+        {
+            GameplayMusicAudioComponent->Stop();
+        }
+        else
+        {
+            GameplayMusicAudioComponent->FadeOut(MusicFadeDuration, 0.0f);
+        }
+    }
+}
+
+/**
+ * Plays the menu music.
+ * - Stops gameplay and start screen music to avoid audio conflicts.
+ * - Either fades in an existing menu music audio component or spawns a new one.
+ */
+void UGI_Template::PlayMenuMusic()
+{
+    StopGameplayMusic();
+    StopStartScreenMusic();
+
+    if (MenuMusicAudioComponent)
+    {
+        if (!MenuMusicAudioComponent->IsPlaying())
+        {
+            MenuMusicAudioComponent->FadeIn(MusicFadeDuration, 1.0f);
+        }
+    }
+    else
+    {
+        if (MenuMusic)
+        {
+            MenuMusicAudioComponent = UGameplayStatics::SpawnSound2D(this, MenuMusic, 1, 1, 0, nullptr, true, true);
+
+            if (MenuMusicAudioComponent)
+            {
+                MenuMusicAudioComponent->FadeIn(MusicFadeDuration, 1.0f);
+            }
+        }
+    }
+}
+
+/**
+ * Stops the menu music.
+ * - If ForceStop is true, stops immediately; otherwise, fades out the music.
+ */
+void UGI_Template::StopMenuMusic(bool ForceStop)
+{
+    if (MenuMusicAudioComponent && MenuMusicAudioComponent->IsPlaying())
+    {
+        if (ForceStop)
+        {
+            MenuMusicAudioComponent->Stop();
+        }
+        else
+        {
+            MenuMusicAudioComponent->FadeOut(MusicFadeDuration, 0.0f);
+        }
+    }
+}
+
+/**
+ * Plays the start screen music.
+ * - Stops gameplay and menu music first.
+ * - Fades in or spawns the start screen music audio component.
+ */
+void UGI_Template::PlayStartScreenMusic()
+{
+    StopGameplayMusic();
+    StopMenuMusic();
+
+    if (StartScreenMusicAudioComponent)
+    {
+        if (!StartScreenMusicAudioComponent->IsPlaying())
+        {
+            StartScreenMusicAudioComponent->FadeIn(MusicFadeDuration, 1.0f);
+        }
+    }
+    else
+    {
+        if (StartScreenMusic)
+        {
+            StartScreenMusicAudioComponent = UGameplayStatics::SpawnSound2D(this, StartScreenMusic);
+
+            if (StartScreenMusicAudioComponent)
+            {
+                StartScreenMusicAudioComponent->FadeIn(MusicFadeDuration, 1.0f);
+            }
+        }
+    }
+}
+
+/**
+ * Stops the start screen music.
+ * - If ForceStop is true, stops immediately; otherwise, fades out the music.
+ */
+void UGI_Template::StopStartScreenMusic(bool ForceStop)
+{
+    if (StartScreenMusicAudioComponent && StartScreenMusicAudioComponent->IsPlaying())
+    {
+        if (ForceStop)
+        {
+            StartScreenMusicAudioComponent->Stop();
+        }
+        else
+        {
+            StartScreenMusicAudioComponent->FadeOut(MusicFadeDuration, 0.0f);
         }
     }
 }
