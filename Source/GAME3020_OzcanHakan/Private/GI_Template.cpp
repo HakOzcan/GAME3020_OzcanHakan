@@ -8,6 +8,7 @@
 #include "CustomGameViewportClient.h"
 #include "Components/AudioComponent.h"
 #include "LoadingScreenModule.h"
+#include "AutoSave/AutoSaveSubsystem.h"
 
 void UGI_Template::Init()
 {
@@ -23,6 +24,13 @@ void UGI_Template::Init()
     // Bind functions to execute before and after a map is loaded.
     FCoreUObjectDelegates::PreLoadMap.AddUObject(this, &UGI_Template::BeginLoadingScreen);
     FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UGI_Template::EndLoadingScreen);
+
+    // Get and configure the AutoSave subsystem if available.
+    UAutoSaveSubsystem* AutoSaveSubsystem = GetSubsystem<UAutoSaveSubsystem>();
+    if (AutoSaveSubsystem)
+    {
+        AutoSaveSubsystem->SaveNotificationWidgetClass = SaveNotificationWidgetClass;
+    }
 }
 
 /**
