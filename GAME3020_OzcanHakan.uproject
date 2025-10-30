@@ -12,6 +12,11 @@
 				"Engine",
 				"UMG"
 			]
+		},
+		{
+			"Name": "LoadingScreenModule",
+			"Type": "Runtime",
+			"LoadingPhase": "PreLoadingScreen"
 		}
 	],
 	"Plugins": [
