@@ -74,6 +74,22 @@ private:
     void OnControllerChanged(EInputDeviceConnectionState connectionState, FPlatformUserId userID, FInputDeviceId inputDeviceID);
 
 private:
+    // UI Data assets for different platforms (Xbox, PS5, Switch).
+    UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
+    class UUIDataAsset* XboxUIDataAsset;
+
+    UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
+    class UUIDataAsset* PS5UIDataAsset;
+
+    UPROPERTY(EditAnywhere, Category = "UI", meta = (AllowPrivateAccess = "true"))
+    class UUIDataAsset* SwitchUIDataAsset;
+
+public:
+    // Returns the appropriate UI Data asset based on the current platform.
+    UFUNCTION(BlueprintCallable)
+    class UUIDataAsset* GetUIDataAsset() const;
+
+private:
     // Audio components for handling background music during gameplay, menu, and start screen.
     UPROPERTY()
     class UAudioComponent* GameplayMusicAudioComponent;

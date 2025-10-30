@@ -32,4 +32,7 @@ public:
 
     UFUNCTION(BlueprintPure, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
     static class ACharacter* GetActivePlayerCharacter(const UObject* WorldContextObject);
+
+    UFUNCTION(BlueprintCallable, BlueprintPure, Category = "MyBlueprintFunctionLibrary", meta = (WorldContext = "WorldContextObject"))
+    static class UUIDataAsset* GetUIDataAsset(const UObject* WorldContextObject);
 };

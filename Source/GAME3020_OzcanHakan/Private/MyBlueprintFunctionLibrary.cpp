@@ -53,3 +53,11 @@ ACharacter* UMyBlueprintFunctionLibrary::GetActivePlayerCharacter(const UObject*
 {
     return GetActivePlayerController(WorldContextObject)->GetCharacter();
 }
+
+UUIDataAsset* UMyBlueprintFunctionLibrary::GetUIDataAsset(const UObject* WorldContextObject)
+{
+    const UGI_Template* GameInstance = Cast<UGI_Template>(UGameplayStatics::GetGameInstance(WorldContextObject));
+    if (!GameInstance) return nullptr;
+    return GameInstance->GetUIDataAsset();
+}
+

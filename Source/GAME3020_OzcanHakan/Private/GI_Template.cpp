@@ -64,6 +64,31 @@ int32 UGI_Template::GetActiveControllerID()
     return ActiveControllerId;
 }
 
+
+/**
+ * Returns the UI Data asset based on the current platform.
+ * - For PS5, returns PS5UIDataAsset.
+ * - For SWITCH, returns SwitchUIDataAsset.
+ * - Otherwise, returns XboxUIDataAsset.
+ */
+UUIDataAsset* UGI_Template::GetUIDataAsset() const
+{
+    FString PlatformName = UGameplayStatics::GetPlatformName();
+
+    if (PlatformName == "PS5")
+    {
+        return PS5UIDataAsset;
+    }
+    else if (PlatformName == "SWITCH")
+    {
+        return SwitchUIDataAsset;
+    }
+    else
+    {
+        return XboxUIDataAsset;
+    }
+}
+
 /**
  * Called when a controller's connection state changes.
  * - If the active controller is affected, pauses/unpauses the game and shows/hides a disconnect widget.
