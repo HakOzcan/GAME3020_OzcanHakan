@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "Game Mode/GAME3020_OzcanHakanGameMode.h"
-#include "Character/GAME3020_OzcanHakanCharacter.h"
+#include "Character/C_Game.h"
 #include "UObject/ConstructorHelpers.h"
 
 AGAME3020_OzcanHakanGameMode::AGAME3020_OzcanHakanGameMode()

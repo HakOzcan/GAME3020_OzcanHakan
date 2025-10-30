@@ -4,7 +4,7 @@
 #include "Game Mode/GM_Game.h"
 #include "Player Controller/PC_Game.h"                  // Custom gameplay player controller
 #include "HUD/HUD_Game.h"                               // Custom gameplay HUD class
-#include "Character/GAME3020_OzcanHakanCharacter.h"     // Gameplay character (pawn) class
+#include "Character/C_Game.h"     // Gameplay character (pawn) class
 #include "GI_Template.h"                                // Custom Game Instance class
 #include "Kismet/GameplayStatics.h"                     // Utility for gameplay functions
 
@@ -20,7 +20,7 @@ AGM_Game::AGM_Game()
     HUDClass = AHUD_Game::StaticClass();
 
     // Set the default pawn (character) class to our gameplay character.
-    DefaultPawnClass = AGAME3020_OzcanHakanCharacter::StaticClass();
+    DefaultPawnClass = AC_Game::StaticClass();
 }
 
 /**

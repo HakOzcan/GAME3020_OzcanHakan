@@ -19,7 +19,7 @@ void UTP_PickUpComponent::BeginPlay()
 void UTP_PickUpComponent::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	// Checking if it is a First Person Character overlapping
-	AGAME3020_OzcanHakanCharacter* Character = Cast<AGAME3020_OzcanHakanCharacter>(OtherActor);
+	AC_Game* Character = Cast<AC_Game>(OtherActor);
 	if(Character != nullptr)
 	{
 		// Notify that the actor is being picked up

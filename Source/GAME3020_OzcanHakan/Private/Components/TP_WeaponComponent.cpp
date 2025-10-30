@@ -2,7 +2,7 @@
 
 
 #include "Components/TP_WeaponComponent.h"
-#include "Character/GAME3020_OzcanHakanCharacter.h"
+#include "Character/C_Game.h"
 #include "GAME3020_OzcanHakanProjectile.h"
 #include "Player Controller/GAME3020_OzcanHakanPlayerController.h"
 #include "Camera/PlayerCameraManager.h"
@@ -66,7 +66,7 @@ void UTP_WeaponComponent::Fire()
 	}
 }
 
-bool UTP_WeaponComponent::AttachWeapon(AGAME3020_OzcanHakanCharacter* TargetCharacter)
+bool UTP_WeaponComponent::AttachWeapon(AC_Game* TargetCharacter)
 {
 	Character = TargetCharacter;
 
