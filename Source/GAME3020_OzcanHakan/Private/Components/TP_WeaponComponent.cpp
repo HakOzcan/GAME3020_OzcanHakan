@@ -4,7 +4,7 @@
 #include "Components/TP_WeaponComponent.h"
 #include "Character/C_Game.h"
 #include "GAME3020_OzcanHakanProjectile.h"
-#include "Player Controller/GAME3020_OzcanHakanPlayerController.h"
+#include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "EnhancedInputComponent.h"
